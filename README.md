@@ -1,4 +1,4 @@
-#epichours.php
+# epichours.php
 
 To install, check it out and run composer
 
