@@ -1,0 +1,15 @@
+{
+    "name": "epichours",
+    "description": "Get the worklogs sumarized for Jira Epics",
+    "keywords": ["epics", "jira", "tempo"],
+    "license": "MIT",
+    "authors": [{
+        "name": "Andreas Gohr",
+        "email": "gohr@cosmocode.de"
+    }],
+    "require": {
+        "php": ">=5.3",
+        "splitbrain/php-cli": "^1.0",
+        "ptcong/easyrequest": "^1.0"
+    }
+}

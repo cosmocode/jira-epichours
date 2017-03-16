@@ -1,0 +1,3 @@
+jira = "https://cosmocode.jira.com"
+user = "username"
+pass = "password"
