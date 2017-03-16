@@ -48,7 +48,7 @@ class EpicHours extends \splitbrain\phpcli\CLI {
         foreach($epics['issues'] as $epic) {
             $ticket = $epic['key'];
             $hours = $this->jiraApi('/rest/tempo-timesheets/3/worklogs/timespent/', "project = $project AND \"Epic Link\" = $ticket");
-            echo $hours['hours'];
+            echo round($hours['hours'], 2);
             echo "\t";
             echo round($hours['hours']/8, 2);
             echo "\t";
