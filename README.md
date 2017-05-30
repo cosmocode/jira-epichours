@@ -4,7 +4,7 @@ Some simple PHP command line tools speaking with the Jira API.
 
 To install, check it out and run composer
 
-    composer installer
+    composer install
 
 Then copy the `epichours.ini.dist` to `epichours.ini` and edit it to set the API credentials.
  
