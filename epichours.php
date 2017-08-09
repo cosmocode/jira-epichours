@@ -45,10 +45,17 @@ class EpicHours extends AbstractCLI
         $epics = $this->jiraApi('/rest/api/latest/search/', "project = $project AND type = Epic ORDER BY key");
         foreach ($epics['issues'] as $epic) {
             $ticket = $epic['key'];
-            $hours = $this->jiraApi('/rest/tempo-timesheets/3/worklogs/timespent/', "project = $project AND \"Epic Link\" = $ticket");
-            echo round($hours['hours'], 2);
+
+            $time = 0;
+            $issues = $this->jiraApi('/rest/api/latest/search/?maxResults=1000', "project = $project AND \"Epic Link\" = $ticket");
+            foreach ($issues['issues'] as $issue) {
+                $time += $issue['fields']['aggregatetimespent'];
+            }
+            $hours = $time / 3600;
+
+            echo round($hours, 2);
             echo "\t";
-            echo round($hours['hours'] / 8, 2);
+            echo round($hours / 8, 2);
             echo "\t";
             echo $ticket;
             echo "\t";
