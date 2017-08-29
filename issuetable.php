@@ -36,8 +36,11 @@ class IssueTable extends AbstractCLI
         printf("^  % -48s ||", 'Issue');
 
         $now = date('W');
+        $max = $this->maxWeek();
         for ($i = 0; $i < $cols; $i++) {
-            printf('  % 3s  |', 'W' . ($now + $i));
+            $week = $now + $i;
+            if($week > $max) $week = $week - $max;
+            printf('  % 3s  |', 'W' . $week);
         }
         echo "\n";
 
@@ -67,6 +70,16 @@ class IssueTable extends AbstractCLI
             for ($i = 0; $i < $cols; $i++) printf('  % 3s  |', '');
             echo "\n";
         }
+    }
+
+    /**
+     * Get the week number of the last week in the year
+     *
+     * @link https://stackoverflow.com/a/21480444/172068
+     * @return int
+     */
+    protected function maxWeek() {
+        return (int)  (new DateTime('December 28th'))->format('W');
     }
 }
 
