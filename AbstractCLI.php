@@ -1,6 +1,7 @@
 <?php
 
-abstract class AbstractCLI extends \splitbrain\phpcli\CLI {
+abstract class AbstractCLI extends \splitbrain\phpcli\CLI
+{
     protected $user;
     protected $pass;
     protected $jira;
@@ -20,15 +21,38 @@ abstract class AbstractCLI extends \splitbrain\phpcli\CLI {
         $this->pass = trim($ini['pass']);
     }
 
+    /**
+     * Run jiraquery and return all pages
+     *
+     * @param $endpoint
+     * @param $jql
+     * @return mixed
+     */
+    protected function jiraApi($endpoint, $jql)
+    {
+        $result = array();
+        $startAt = 0;
+        do {
+
+            $data = $this->jiraCall($endpoint, $jql, $startAt);
+            $result = array_merge_recursive($result, $data);
+
+            $total = $data['total'];
+            $startAt += $data['maxResults'];
+        } while ($startAt < $total);
+
+        return $result;
+    }
 
     /**
      * Run a Jira API query
      *
      * @param string $endpoint
      * @param string $jql
+     * @param int $from
      * @return mixed
      */
-    protected function jiraApi($endpoint, $jql)
+    protected function jiraCall($endpoint, $jql, $from = 0)
     {
         $url = $this->jira . $endpoint;
 
@@ -40,7 +64,7 @@ abstract class AbstractCLI extends \splitbrain\phpcli\CLI {
         );
 
         $response = \EasyRequest\Client::request($url, 'GET', $options)
-            ->withQuery(array('jql' => $jql))
+            ->withQuery(array('jql' => $jql, 'startAt' => $from, 'maxResults' => 100))
             ->send();
 
         if ($response->getStatusCode() > 299) {
