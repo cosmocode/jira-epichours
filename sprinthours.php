@@ -3,7 +3,7 @@
 
 require 'vendor/autoload.php';
 
-class SprintList extends AbstractCLI
+class SprintHours extends AbstractCLI
 {
 
 
@@ -31,7 +31,6 @@ class SprintList extends AbstractCLI
     {
         $this->loadCredentials();
 
-
         $sprints = $options->getArgs();
         $sprints = array_map('intval', $sprints);
         $this->printIssues($sprints);
@@ -44,7 +43,7 @@ class SprintList extends AbstractCLI
      */
     protected function printIssues($sprints)
     {
-        echo "Status\tType\tSpID\tSprint\tHours\tDays\tEpic\tSummary\n";
+        echo "Status\tType\tSpID\tSprint\tHours\tDays\tIssue\tSummary\n";
 
         $sprints = join(',', $sprints);
         $issues = $this->jiraApi('/rest/api/latest/search/?maxResults=1000', "sprint IN ($sprints)");
@@ -107,5 +106,5 @@ class SprintList extends AbstractCLI
 
 }
 
-$cli = new SprintList();
+$cli = new SprintHours();
 $cli->run();
